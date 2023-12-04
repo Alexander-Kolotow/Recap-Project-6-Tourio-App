@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { StyledButton } from "./StyledButton.js";
+import useSWR from "swr";
 
 const FormContainer = styled.form`
   display: grid;
@@ -25,11 +26,19 @@ const Label = styled.label`
 `;
 
 export default function Form({ onSubmit, formName, defaultData }) {
+  const { mutate } = useSWR("/api/places");
+
   function handleSubmit(event) {
+
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
     onSubmit(data);
+
+    if (response.ok) {
+      mutate();
+    }
+    
   }
 
   return (
